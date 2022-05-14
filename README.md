@@ -2,7 +2,7 @@
 ![Java](https://img.shields.io/badge/-Java-0a0a0a?style=for-the-badge&logo=Java) ![Spring](https://img.shields.io/badge/-Spring-0a0a0a?style=for-the-badge&logo=Spring)
 <br/>
 
->This is a web application for an educational project to create an online book store based on the Spring Framework, at the moment the project is still in development
+>This is a bookstore.com.web application for an educational project to create an online book store based on the Spring Framework, at the moment the project is still in development
 
 ## Table of contents
 * [Technologies](#technologies)
