@@ -1,34 +1,29 @@
 package bookstore.com.web.dto;
 
-import javax.validation.constraints.*;
 
-public class Book {
+import bookstore.com.web.dto.validator.HasOneField;
+
+@HasOneField()
+public class BookRegex {
     private Integer id;
-    @NotEmpty(message = "Author name must be not empty")
-    @Size(min = 1, max = 250, message = "Value must be between 1 and 250")
     private String author;
-    @NotEmpty(message = "Title name must be not empty")
-    @Size(min = 1, max = 250, message = "Value must be between 1 and 250")
     private String title;
-    @NotNull(message = "Size field must be not empty")
-    @Digits(integer = 4, fraction = 0, message = "Size value must be digit and less than 4 signs")
-    @Min(value = 1)
     private Integer size;
 
-    public Book(Integer id, String author, String title, Integer size) {
+    public BookRegex(Integer id, String author, String title, Integer size) {
         this.id = id;
         this.author = author;
         this.title = title;
         this.size = size;
     }
 
-    public Book(String author, String title, Integer size) {
+    public BookRegex(String author, String title, Integer size) {
         this.author = author;
         this.title = title;
         this.size = size;
     }
 
-    public Book() {
+    public BookRegex() {
     }
 
     public Integer getId() {
@@ -61,6 +56,10 @@ public class Book {
 
     public void setSize(Integer size) {
         this.size = size;
+    }
+
+    public Book getBook() {
+        return new Book(id, author, title, size);
     }
 
     @Override

@@ -1,18 +1,23 @@
 package bookstore.com.web.dto;
 
-public class User {
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
-    private Integer id;
+public class LoginForm {
+
+    @NotEmpty(message = "Username must be not empty")
+    @Size(min = 1, max = 50, message = "Value must be between 1 and 50")
     private String username;
+    @NotEmpty(message = "Password must be not empty")
+    @Size(min = 1, max = 50, message = "Value must be between 1 and 50")
     private String password;
 
-    public User(Integer id, String username, String password) {
-        this.id = id;
+    public LoginForm(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public User() {
+    public LoginForm() {
     }
 
     public String getUsername() {
@@ -31,19 +36,10 @@ public class User {
         this.password = password;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
+        return "LoginForm{" +
+                "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
