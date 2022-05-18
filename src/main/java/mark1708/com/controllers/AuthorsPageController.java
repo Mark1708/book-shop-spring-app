@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/bookshop/authors")
+@RequestMapping("/authors")
 public class AuthorsPageController {
 
     private final AuthorService authorService;
