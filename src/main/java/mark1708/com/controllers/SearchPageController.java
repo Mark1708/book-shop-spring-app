@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/search")
-public class SearchPageController {@GetMapping()
-public String viewPage(Model model){
-    return "search/index";
-}
+public class SearchPageController {
+    @GetMapping()
+    public String viewPage(Model model){
+        return "search/index";
+    }
 }

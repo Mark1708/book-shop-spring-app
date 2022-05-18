@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/postponed")
-public class PostponedPageController {@GetMapping()
-public String viewPage(Model model){
-    return "postponed";
-}
+public class PostponedPageController {
+    @GetMapping()
+    public String viewPage(Model model){
+        return "postponed";
+    }
 }

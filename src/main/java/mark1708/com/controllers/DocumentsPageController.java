@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/documents")
-public class DocumentsPageController {@GetMapping()
-public String mainPage(Model model){
-    return "documents/index";
-}
+public class DocumentsPageController {
+    @GetMapping()
+    public String mainPage(Model model){
+        return "documents/index";
+    }
 }

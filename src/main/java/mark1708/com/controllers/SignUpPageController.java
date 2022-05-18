@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/signup")
-public class SignUpPageController {@GetMapping()
-public String viewPage(Model model){
-    return "signup";
-}
+public class SignUpPageController {
+    @GetMapping()
+    public String viewPage(Model model){
+        return "signup";
+    }
 }
