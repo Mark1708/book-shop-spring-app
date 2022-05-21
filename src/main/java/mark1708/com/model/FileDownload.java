@@ -8,18 +8,21 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name="book2genre")
-public class BookGenre {
+@Table(name="file_download")
+public class FileDownload {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "genre_id", nullable = false)
-    private Genre genre;
+    @Column(nullable = false, columnDefinition = "INT DEFAULT 1")
+    private Integer count;
 }

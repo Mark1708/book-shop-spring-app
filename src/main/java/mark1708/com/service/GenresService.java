@@ -1,35 +1,46 @@
 package mark1708.com.service;
 
+import mark1708.com.dto.GenreDto;
 import mark1708.com.model.Genre;
-import mark1708.com.model.mapper.GenreRowMapper;
+import mark1708.com.repo.GenreRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GenresService {
 
-    private JdbcTemplate jdbcTemplate;
+    private GenreRepository genreRepository;
 
     @Autowired
-    public GenresService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public GenresService(GenreRepository genreRepository) {
+        this.genreRepository = genreRepository;
     }
 
     public List<Genre> getGenresByParentId(Integer parentId) {
-        List<Genre> genres = jdbcTemplate.query("SELECT * FROM genre WHERE parent_id = " + parentId, new GenreRowMapper());
-        return new ArrayList<>(genres);
+        return genreRepository.findGenreByParentId(parentId);
     }
 
-    public List<Genre> getParentGenresList() {
-        List<Genre> genres = jdbcTemplate.query("SELECT * FROM genre WHERE parent_id IS NULL", new GenreRowMapper());
-        genres.stream().parallel().forEach(genre -> {
-            List<Genre> genresByParentId = getGenresByParentId(genre.getId());
-            genre.setChildGenreList(genresByParentId);
-        });
-        return new ArrayList<>(genres);
+    public List<GenreDto> getParentGenresList() {
+        return genreRepository.findParentGenres()
+                .stream()
+                .parallel()
+                .map(genre -> {
+                    GenreDto genreDto = convertToDto(genre);
+                    List<Genre> genresByParentId = getGenresByParentId(genre.getId());
+                    genreDto.setChildGenreList(genresByParentId);
+                    return genreDto;
+                })
+                .collect(Collectors.toList());
     }
+
+    public GenreDto convertToDto(Genre genre) {
+        GenreDto genreDto = new GenreDto();
+        BeanUtils.copyProperties(genre, genreDto);
+        return genreDto;
+    }
+
 }

@@ -2,14 +2,16 @@ package mark1708.com.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name="book2author")
-public class BookAuthor {
+@Table(name="book_review")
+public class BookReview {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +22,12 @@ public class BookAuthor {
     private Book book;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id", nullable = false)
-    private Author author;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    private Date time;
+
+    @Column(columnDefinition = "TEXT")
+    @Type(type = "org.hibernate.type.TextType")
+    private String text;
 }

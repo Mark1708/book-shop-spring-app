@@ -7,14 +7,15 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name="genre")
 @NoArgsConstructor
-public class Genre {
+@Table(name="book2user_type")
+public class BookUserType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer parentId;
-    private String slug;
+
+    private String code;
     private String name;
+
 }

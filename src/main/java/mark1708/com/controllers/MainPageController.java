@@ -20,9 +20,9 @@ public class MainPageController {
 
     @GetMapping()
     public String viewPage(Model model){
-        model.addAttribute("bookData", bookService.getBooksList());
-        model.addAttribute("newBookData", bookService.getNewBooksList());
-        model.addAttribute("popularBookData", bookService.getPopularBooksList());
+        model.addAttribute("bookData", bookService.getBooksList().subList(0, 15));
+        model.addAttribute("newBookData", bookService.getNewBooksList().subList(0, 15));
+        model.addAttribute("popularBookData", bookService.getPopularBooksList().subList(0, 15));
         return "index";
     }
 }

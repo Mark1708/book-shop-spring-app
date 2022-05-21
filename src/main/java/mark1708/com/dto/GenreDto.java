@@ -1,20 +1,17 @@
-package mark1708.com.model;
+package mark1708.com.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import mark1708.com.model.Genre;
 
-import javax.persistence.*;
+import java.util.List;
 
 @Data
-@Entity
-@Table(name="genre")
 @NoArgsConstructor
-public class Genre {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class GenreDto {
     private Integer id;
     private Integer parentId;
     private String slug;
     private String name;
+    private List<Genre> childGenreList;
 }

@@ -1,36 +1,55 @@
 package mark1708.com.service;
 
+import mark1708.com.dto.BookDto;
+import mark1708.com.exception.ResourceNotFoundException;
 import mark1708.com.model.Book;
-import mark1708.com.model.mapper.BookRowMapper;
+import mark1708.com.model.BookAuthor;
+import mark1708.com.repo.BookAuthorRepository;
+import mark1708.com.repo.BookRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static mark1708.com.exception.ErrorMessage.NO_FOUND_BY_ID_ERROR;
 
 @Service
 public class BookService {
 
-    private JdbcTemplate jdbcTemplate;
+    private BookRepository bookRepository;
+    private BookAuthorRepository bookAuthorRepository;
 
     @Autowired
-    public BookService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public BookService(BookRepository bookRepository, BookAuthorRepository bookAuthorRepository) {
+        this.bookRepository = bookRepository;
+        this.bookAuthorRepository = bookAuthorRepository;
     }
 
-    public List<Book> getBooksList(){
-        List<Book> books = jdbcTemplate.query("SELECT * FROM book LIMIT 15", new BookRowMapper(jdbcTemplate));
-        return new ArrayList<>(books);
+    public List<BookDto> getBooksList(){
+        return convertToDto(bookRepository.findAll());
     }
 
-    public List<Book> getNewBooksList() {
-        List<Book> books = jdbcTemplate.query("SELECT * FROM book ORDER BY pub_date DESC LIMIT 15", new BookRowMapper(jdbcTemplate));
-        return new ArrayList<>(books);
+    public List<BookDto> getNewBooksList() {
+        return convertToDto(bookRepository.findBooksSortedByPubDate());
     }
 
-    public List<Book> getPopularBooksList() {
-        List<Book> books = jdbcTemplate.query("SELECT * FROM book WHERE is_bestseller = 1 LIMIT 15", new BookRowMapper(jdbcTemplate));
-        return new ArrayList<>(books);
+    public List<BookDto> getPopularBooksList() {
+        return convertToDto(bookRepository.findBestsellerBooks());
+    }
+
+    public BookDto convertToDto(Book book) {
+        BookDto bookDto = new BookDto();
+        BeanUtils.copyProperties(book, bookDto);
+        BookAuthor bookAuthor = bookAuthorRepository
+                .findAllByBook_Id(book.getId())
+                .orElseThrow(() -> new ResourceNotFoundException(NO_FOUND_BY_ID_ERROR + book.getId()));
+        bookDto.setAuthor(bookAuthor.getAuthor());
+        return bookDto;
+    }
+
+    public List<BookDto> convertToDto(List<Book> books) {
+        return books.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 }

@@ -10,21 +10,23 @@ import java.util.Date;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name="book")
-public class Book {
+@Table(name="message")
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Date pubDate;
-    private Integer isBestseller;
-    private String slug;
-    private String title;
-    private String image;
+
+    private Date time;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    private String email;
+    private String name;
+    private String subject;
     @Column(columnDefinition = "TEXT")
     @Type(type = "org.hibernate.type.TextType")
-    private String description;
-    private Integer price;
-    @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
-    private Integer discount;
+    private String text;
 }

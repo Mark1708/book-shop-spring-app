@@ -7,14 +7,20 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name="genre")
 @NoArgsConstructor
-public class Genre {
+@Table(name="book_file")
+public class BookFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer parentId;
-    private String slug;
-    private String name;
+
+    private String hash;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "type_id", nullable = false)
+    private BookFileType type;
+
+    private String path;
+
 }
